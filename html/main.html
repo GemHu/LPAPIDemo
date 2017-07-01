@@ -1,0 +1,300 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width"/>
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>Hello APP</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/box.css" />
+	<style>
+	</style>
+</head>
+<body>
+    <div id="wrap">
+        <div id="main">
+			<div class="itemtitle" style="text-align: center;">
+				<div style="margin: 0 auto">
+					<div style="display: inline-block;">打印机:</div>
+					<select style="display: inline-block;" id="lnPrinter">
+						<option>未检测到打印机</option>
+					</select>
+				</div>
+			</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_1()" >无线网资源：90x30</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_2()" >无线网资源：100x45</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_3()" >传输网资源分光器：90x30</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_4()" >传输网资源尾纤：45x45+35</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_5()" >传输网资源交接箱：90x30</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_6()" >传输网资源传输机架：100x45</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_7()" >传输网资源DDF架：100x45</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_8()" >传输网资源传输电路：45x45+35</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_9()" >传输网资源DDF配线架架顶标签：100x45</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_10()">传输网资源OLT设备：90x30</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_11()">动力环境资源：100x45</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_12()">核心网资源：90x30</div>
+			<div class="clickbtn" tapmode="active" onclick="printLabel_13()">ODM/DDM标签：20x15</div>
+            <div class="clickbtn" tapmode="active" onclick="printLabel_14()">机房标签</div>
+		</div>
+	</div>
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/LPAPI.js"></script>
+<script type="text/javascript" src="../script/LnPrinter.js"></script>
+<script type="text/javascript">
+	var lnPrinter = null;
+    apiready = function(){
+        lnPrinter = new LnPrinter();
+        updatePrinterList();
+    };
+
+    /**
+     * 获取打印机列表，并显示打印机列表。
+     */
+    function updatePrinterList() {
+        try {
+            var printerSelect = document.getElementById("lnPrinter");
+            printerSelect.innerHTML = "";
+            var printerNames = lnPrinter.getAllPrinters();
+            if (!printerNames) {
+                printerSelect.options.add(new Option("未检测到打印机", ""));
+                return;
+            }
+
+            var printerList = printerNames.split(",");
+            for (var i = 0; i < printerList.length; i++) {
+                printerSelect.options.add(new Option(printerList[i], printerList[i]));
+            }
+        } catch (e) {
+        }
+    }
+
+    /**
+     * 打开目标打印机。
+     */
+    function openPrinter() {
+        var printerName = document.getElementById('lnPrinter').value;
+        if (!printerName)
+            return false;
+
+        return lnPrinter.openPrinter(printerName);
+    }
+
+    /**
+     * 开始打印任务。
+     */
+    function printLabel(xmlData) {
+        // 打开打印机
+        if (!openPrinter())
+            return;
+
+        lnPrinter.print(xmlData);
+    }
+
+    function printLabel_1() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>T_LOGIC_DEVICE_BTS</CodeType>";
+        xmlData += "        <Text>11-大庆大学图书馆</Text>";
+        xmlData += "        <QRCode>大庆大学图书馆</QRCode>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_2() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>RACK</CodeType>";
+        xmlData += "        <Text>大庆萨尔图区万宝1层综合机房/L1-1</Text>";
+        xmlData += "        <QRCode>大庆萨尔图区万宝1层综合机房</QRCode>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_3() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>AN_POS</CodeType>";
+        xmlData += "        <Text>11-大庆大学图书馆</Text>";
+        xmlData += "        <QRCode>大庆大学图书馆</QRCode>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_4() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>JUMP_FIBER</CodeType>";
+        xmlData += "        <Text>BTS1201-1</Text>";
+        xmlData += "        <Text>02200202011</Text>";
+        xmlData += "        <Text>FR:01-10-01-01-01</Text>";
+        xmlData += "        <Text>TO:02-02-02-02-01</Text>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_5() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>FIBER_CAB</CodeType>";
+        xmlData += "        <Text>加拿二区第1号光交接箱</Text>";
+        xmlData += "        <QRCode>光交接箱</QRCode>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_6() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>IRMS_RACK</CodeType>";
+        xmlData += "        <Text>大庆萨尔图区万宝1层综合机房/综合机架L2-2</Text>";
+        xmlData += "        <QRCode>大庆萨尔图区万宝1层综合机房</QRCode>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_7() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>DDF</CodeType>";
+        xmlData += "        <Text>大庆萨尔图区开发区局3层传输机房/DDF15-9A</Text>";
+        xmlData += "        <Text>机房名称：大庆萨尔图区开发区局3层传输机房</Text>";
+        xmlData += "        <Text>责任班组：</Text>";
+        xmlData += "        <Text>自选内容：</Text>";
+        xmlData += "        <QRCode>大庆萨尔图区开发区局3层传输机房</QRCode>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_8() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>TRAPH</CodeType>";
+        xmlData += "        <QRCode>SDNFASD</QRCode>";
+        xmlData += "        <Text>FR:L2-3-LTE-WMPT-FEO</Text>";
+        xmlData += "        <Text>TO:17-万宝-PTN3900-19-ETFC-FE5</Text>";
+        xmlData += "        <Text>PTN3900-LTE</Text>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_9() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>ODFMODULE</CodeType>";
+        xmlData += "        <Text>DDF01-01</Text>";
+        xmlData += "        <Text>机房名称：</Text>";
+        xmlData += "        <Text>责任班组：</Text>";
+        xmlData += "        <Text>自选内容：</Text>";
+        xmlData += "        <QRCode>DDF01</QRCode>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_10() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>OLT</CodeType>";
+        xmlData += "        <Text>大庆萨尔图区-万宝-OLT02-HW-MA5680T</Text>";
+        xmlData += "        <QRCode>大庆萨尔图区-万宝</QRCode>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_11() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>T_PHY_COM_POWER_FORMER</CodeType>";
+        xmlData += "        <Text>设备名称：UPS系统-UPS主机柜-艾默生-UH11-0060L-6KVA-单机-2009</Text>";
+        xmlData += "        <QRCode>UPS系统-UPS主机柜-艾默生-UH11-0060L-6KVA-单机-2009</QRCode>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_12() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>T_LOGIC_DEVICE_STP</CodeType>";
+        xmlData += "        <Text>11-大庆大学图书馆</Text>";
+        xmlData += "        <QRCode>大庆大学图书馆</QRCode>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_13() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>ODM</CodeType>";
+        xmlData += "        <Text>DDM</Text>";
+        xmlData += "        <Text>02</Text>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+
+    function printLabel_14() {
+        var xmlData = "";
+        xmlData += "<?xml version=\"1.0\" encoding=\"utf-8\" ?>";
+        xmlData += "<Data>";
+        xmlData += "    <Print>";
+        xmlData += "        <CodeType>ROOM</CodeType>";
+        xmlData += "        <QRCode>大庆大学图书馆</QRCode>";
+        xmlData += "        <Text>机房名称：******************</Text>";
+        xmlData += "    </Print>";
+        xmlData += "</Data>";
+
+        printLabel(xmlData);
+    }
+</script>
+</html>
